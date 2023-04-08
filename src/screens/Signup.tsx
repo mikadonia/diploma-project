@@ -4,6 +4,8 @@ import { Link } from "react-router-dom";
 import { useState } from "react";
 import cn from "classnames";
 import { Button } from "../components";
+import { useAppDispatch, useAppSelector } from "../hooks/redux";
+import { registration } from "../store/slices/user.actionCreator";
 
 type SignupForm = {
   email: string;
@@ -12,6 +14,9 @@ type SignupForm = {
 };
 
 const Signup = () => {
+  const dispatch = useAppDispatch();
+  const {} = useAppSelector(state => state.user)
+
   const {
     register,
     handleSubmit,
@@ -28,13 +33,12 @@ const Signup = () => {
 
   const onSubmit = ({ email, password, passwordRepeat }: SignupForm) => {
     if (password === passwordRepeat) {
-      fetch(REGISTRATION_URL, {
-        method: "POST",
-        body: JSON.stringify({
+      dispatch(
+        registration({
           email,
           password,
-        }),
-      });
+        })
+      );
     }
   };
 
